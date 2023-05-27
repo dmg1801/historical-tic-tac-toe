@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GameService } from './game.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'historycal-tic-tac-toe';
+  constructor(public gameService: GameService) { }
+
+  resetGame() {
+    this.gameService.newGame();
+  }
 }

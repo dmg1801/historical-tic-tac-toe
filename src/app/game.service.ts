@@ -12,6 +12,7 @@ export class GameService {
   isGameRunning: boolean = false;
   isGameOver: boolean = false;
   winner: boolean = false;
+  movesList: number[] = [];
 
   constructor() {
     this.newGame();
@@ -23,6 +24,7 @@ export class GameService {
     this.isGameRunning = false;
     this.isGameOver = false;
     this.winner = false;
+    this.movesList = [];
     this.board = this.createBoard();
   }
 
@@ -41,13 +43,27 @@ export class GameService {
   set setBoard(board: any) {
     this.board = [...board];
   }
+  /* ORIGINAL FUNCTION */
+  /*  changePlayerTurn(squareClicked: any) {
+     this.updateBoard(squareClicked);
+     if (!this.isGameOver) this.activePlayer = this.activePlayer === "X" ? "O" : "X"
+ 
+     this.turnCount++;
+     this.isGameOver = this.isGameOver ? true : false;
+ 
+     console.log("Generated Number = " + this.generateRandomNumber());
+   } */
 
   changePlayerTurn(squareClicked: any) {
     this.updateBoard(squareClicked);
-    if (!this.isGameOver) this.activePlayer = this.activePlayer === "X" ? "O" : "X"
+
+    this.movesList.push(squareClicked.id);
+    if (!this.isGameOver) this.activePlayer = "X";
 
     this.turnCount++;
     this.isGameOver = this.isGameOver ? true : false;
+
+    this.computerPlay();
   }
 
   updateBoard(squareClicked: any) {
@@ -102,6 +118,40 @@ export class GameService {
       }
     }
     return false;
+  }
+
+  generateRandomNumber(): number {
+    return Math.floor(Math.random() * 10);
+  }
+
+  computerPlay() {
+
+    var squareNumber = this.generateMove();
+    this.board[squareNumber].state = "O";
+
+    if (this.isWinner) {
+      this.winner = true;
+      this.isGameRunning = false;
+      this.isGameOver = true;
+    }
+
+    this.turnCount++;
+    this.isGameOver = this.isGameOver ? true : false;
+  }
+
+  generateMove(): number {
+
+    var generatedMove = this.generateRandomNumber();
+
+    if (this.movesList.includes(generatedMove)) {
+      this.generateMove();
+    }
+    else {
+      this.movesList.push(generatedMove);
+      console.log("Generated Number = " + generatedMove);
+    }
+
+    return generatedMove;
   }
 
 }

@@ -63,7 +63,9 @@ export class GameService {
     this.turnCount++;
     this.isGameOver = this.isGameOver ? true : false;
 
-    this.computerPlay();
+    if (!this.isGameOver) {
+      this.computerPlay();
+    }
   }
 
   updateBoard(squareClicked: any) {
@@ -126,7 +128,10 @@ export class GameService {
 
   computerPlay() {
 
-    var squareNumber = this.generateMove();
+    /*  var squareNumber = this.generateMove(); */
+    var squareNumber = this.generarNumeroNoRepetido(this.movesList);
+
+    this.movesList.push(squareNumber);
     this.board[squareNumber].state = "O";
 
     if (this.isWinner) {
@@ -139,19 +144,31 @@ export class GameService {
     this.isGameOver = this.isGameOver ? true : false;
   }
 
-  generateMove(): number {
+  /*  generateMove(): number {
+ 
+     var generatedMove = this.generateRandomNumber();
+ 
+     if (this.movesList.includes(generatedMove)) {
+       
+     }
+     else {
+       this.movesList.push(generatedMove);
+       console.log("Generated Number = " + generatedMove);
+     }
+ 
+     return generatedMove;
+   } */
 
-    var generatedMove = this.generateRandomNumber();
+  generarNumeroNoRepetido(listaNumeros: number[]): number {
+    let numeroGenerado = Math.floor(Math.random() * 9); // Genera un número aleatorio del 0 al 8
 
-    if (this.movesList.includes(generatedMove)) {
-      this.generateMove();
+    while (listaNumeros.includes(numeroGenerado)) {
+      numeroGenerado = Math.floor(Math.random() * 9); // Genera un nuevo número si el generado ya está en la lista
     }
-    else {
-      this.movesList.push(generatedMove);
-      console.log("Generated Number = " + generatedMove);
-    }
 
-    return generatedMove;
+    console.log("N´mero generado = " + numeroGenerado);
+    return numeroGenerado;
   }
+
 
 }

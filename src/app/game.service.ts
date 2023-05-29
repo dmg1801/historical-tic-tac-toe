@@ -26,6 +26,7 @@ export class GameService {
     this.winner = false;
     this.movesList = [];
     this.board = this.createBoard();
+    this.computerPlay();
   }
 
   createBoard() {
@@ -58,13 +59,15 @@ export class GameService {
     this.updateBoard(squareClicked);
 
     this.movesList.push(squareClicked.id);
-    if (!this.isGameOver) this.activePlayer = "X";
+    if (!this.isGameOver) this.activePlayer = "O";
 
     this.turnCount++;
     this.isGameOver = this.isGameOver ? true : false;
 
     if (!this.isGameOver) {
-      this.computerPlay();
+
+      this.executionTime(() => this.computerPlay());
+      /* this.computerPlay(); */
     }
   }
 
@@ -126,13 +129,14 @@ export class GameService {
     return Math.floor(Math.random() * 10);
   }
 
-  computerPlay() {
+  computerPlay(): void {
 
     /*  var squareNumber = this.generateMove(); */
     var squareNumber = this.generarNumeroNoRepetido(this.movesList);
 
     this.movesList.push(squareNumber);
-    this.board[squareNumber].state = "O";
+    this.board[squareNumber].state = "X";
+    this.activePlayer = "X";
 
     if (this.isWinner) {
       this.winner = true;
@@ -142,6 +146,10 @@ export class GameService {
 
     this.turnCount++;
     this.isGameOver = this.isGameOver ? true : false;
+
+    if (!this.isGameOver) {
+      this.activePlayer = "O";
+    }
   }
 
   /*  generateMove(): number {
@@ -169,6 +177,11 @@ export class GameService {
     console.log("N´mero generado = " + numeroGenerado);
     return numeroGenerado;
   }
+
+  executionTime(funcion: () => void): void {
+    setTimeout(funcion, 1000);
+  }
+
 
 
 }

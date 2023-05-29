@@ -179,7 +179,7 @@ export class GameService {
   }
 
   executionTime(funcion: () => void): void {
-    setTimeout(funcion, 1000);
+    setTimeout(funcion, 500);
   }
 
 

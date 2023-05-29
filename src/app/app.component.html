@@ -22,21 +22,22 @@ to-blue-900"> -->
       {{gameService.activePlayer}} WON
     </h1>
 
-    <!-- reset the game-->
-    <button class="bg-purple-400
-      hover:bg-yellow-400
-      text-dark
-      font-bold
-      py-2
-      px-4
-      rounded
-      mx-auto
-      block
-      mt-5" *ngIf="gameService.gameOver" (click)="resetGame()"> Reset </button>
 
 
   </div>
 
   <app-board></app-board>
+
+  <!-- reset the game-->
+  <button class="bg-purple-400
+    hover:bg-yellow-400
+    text-dark
+    font-bold
+    py-2
+    px-4
+    rounded
+    mx-auto
+    block
+    mt-5" *ngIf="gameService.gameOver" (click)="resetGame()"> Reset </button>
 
 </div>
